@@ -4,21 +4,23 @@ import { Products } from './pages/products/products';
 import { EditProduct } from './pages/edit-product/edit-product';
 import { NewProduct } from './pages/new-product/new-product';
 import { Layout } from './pages/layout/layout';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/login', // TODO: Caso entre em uma rota vazia e o usuário esteja autenticado, será redirecionado para a rota de /products. Caso não esteja vai redirecionar para a rota de /login
+    redirectTo: '/login',
     pathMatch: 'full',
   },
   {
     path: 'login',
     title: 'Login',
-    component: Login,
+    component: Login
   },
   {
     path: '',
     component: Layout,
+    canActivateChild: [authGuard],
     children: [
       {
         path: 'products',
