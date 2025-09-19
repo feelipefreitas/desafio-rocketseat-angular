@@ -41,25 +41,27 @@
       <!-- Lista de Produtos -->
       <div class="flex gap-3 flex-wrap">
         <!-- Produto 1 -->
-        <div class="bg-white rounded-2xl p-1 max-w-sm flex flex-col cursor-pointer">
-          <div class="h-48 relative">
-            <img class="rounded-2xl w-full h-48 object-cover" src="image-sofa.png" />
-            <div class="flex justify-center gap-1 absolute top-4 right-4">
-              <span class="bg-[#0095E5] p-2 rounded-2xl text-xs text-white">ANUNCIADO</span>
-              <span class="bg-[#3D3D3D] p-2 rounded-2xl text-xs text-white">MÓVEL</span>
-            </div>
-          </div>
-          <div class="flex justify-between p-3">
-            <h3 class="font-bold text-gray-700">Sofá</h3>
-            <h3 class="font-bold"><span class="text-xs font-medium">R$</span> 1.200,90</h3>
-          </div>
-          <div class="px-3 pb-3">
-            <p class="text-gray-500 text-sm">Sofá revestido em couro legítimo, com estrutura em madeira maciça e pés em metal cromado.</p>
-          </div>
-        </div>
+         @for(product of products; track product.id) {
+           <div class="bg-white rounded-2xl p-1 w-[45%] min-w-96 flex flex-col cursor-pointer">
+             <div class="h-48 relative">
+               <img class="rounded-2xl w-full h-48 object-cover" src="image-sofa.png" />
+               <div class="flex justify-center gap-1 absolute top-4 right-4">
+                 <span class="bg-[#0095E5] p-2 rounded-2xl text-xs text-white">{{ product.status }}</span>
+                 <span class="bg-[#3D3D3D] p-2 rounded-2xl text-xs text-white">{{ product.category }}</span>
+               </div>
+             </div>
+             <div class="flex justify-between p-3">
+               <h3 class="font-bold text-gray-700">{{ product.title }}</h3>
+               <h3 class="font-bold"><span class="text-xs font-medium">R$</span> {{ product.price }}</h3>
+             </div>
+             <div class="px-3 pb-3">
+               <p class="text-gray-500 text-sm">{{ product.description }}</p>
+             </div>
+           </div>
+         }
 
         <!-- Produto 2 -->
-        <div class="bg-white rounded-2xl p-1 max-w-sm flex flex-col cursor-pointer">
+        <!-- <div class="bg-white rounded-2xl p-1 max-w-sm flex flex-col cursor-pointer">
           <div class="h-48 relative">
             <img class="rounded-2xl w-full h-48 object-cover" src="image-shirt.png" />
             <div class="flex justify-center gap-1 absolute top-4 right-4">
@@ -74,10 +76,10 @@
           <div class="px-3 pb-3">
             <p class="text-gray-500 text-sm">Camiseta básica cinza, confeccionada em algodão 100%, com corte slim fit e gola redonda.</p>
           </div>
-        </div>
+        </div> -->
 
         <!-- Produto 3 -->
-        <div class="bg-white rounded-2xl p-1 max-w-sm flex flex-col cursor-pointer">
+        <!-- <div class="bg-white rounded-2xl p-1 max-w-sm flex flex-col cursor-pointer">
           <div class="h-48 relative">
             <img class="rounded-2xl w-full h-48 object-cover" src="image-car.png" />
             <div class="flex justify-center gap-1 absolute top-4 right-4">
@@ -92,7 +94,7 @@
           <div class="px-3 pb-3">
             <p class="text-gray-500 text-sm">Carrinho de brinquedo na cor amarela, feito de metal, com detalhes realistas.</p>
           </div>
-        </div>
+        </div> -->
 
       </div>
     </div>

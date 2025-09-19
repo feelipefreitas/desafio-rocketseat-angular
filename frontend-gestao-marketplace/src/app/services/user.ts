@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ILoginSuccessResponse } from '../interfaces/login-success-response';
 import { INewProductRequest } from '../interfaces/new-product-request';
 import { INewProductResponse } from '../interfaces/new-product-response';
+import { IProductsResponse } from '../interfaces/products-response';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,9 @@ export class UserService {
 
   addNewProduct(product: INewProductRequest): Observable<INewProductResponse> {
     return this._httpClient.post<INewProductResponse>('http://localhost:3000/api/products', product);
+  }
+
+  getProducts(): Observable<IProductsResponse> {
+    return this._httpClient.get<IProductsResponse>('http://localhost:3000/api/products');
   }
 }
