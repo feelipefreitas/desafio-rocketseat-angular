@@ -43,7 +43,7 @@
          @for(product of products; track product.id) {
            <div class="bg-white rounded-2xl p-1 w-[45%] min-w-96 flex flex-col cursor-pointer">
              <div class="h-48 relative">
-               <img class="rounded-2xl w-full h-48 object-cover" src="image-sofa.png" />
+               <img class="rounded-2xl w-full h-48 object-cover" [src]="product.imageBase64" />
                <div class="flex justify-center gap-1 absolute top-4 right-4">
                  <span 
                   class="p-2 rounded-2xl text-xs text-white"
