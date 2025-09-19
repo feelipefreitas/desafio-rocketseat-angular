@@ -86,11 +86,19 @@
             <span class="text-[#F24D0D] text-sm">Cancelar</span>
           </div>
         <!-- Botão Salvar -->
-          <div class="flex flex-1 justify-center p-3 rounded-lg bg-[#F24D0D] cursor-pointer active:translate-y-2 duration-200 
-    ease-in-out transition" (click)="saveProduct()">
+          <div 
+            [class]="`
+              flex flex-1 justify-center p-3 rounded-lg
+            ${productForm.valid && imageBase64 ? 'bg-[#F24D0D] cursor-pointer active:translate-y-2 duration-200 ease-in-out transition' : 'bg-[#c3c0be] cursor-default'}
+            `" 
+            (click)="saveProduct()">
             <span class="text-white text-sm">Salvar e publicar</span>
           </div>
        </div>
+
+       @if(successUploadMessage) {
+         <p class="font-bold text-green-500">{{ successUploadMessage }}</p>
+       }
     </div>
   </div>
 </div>

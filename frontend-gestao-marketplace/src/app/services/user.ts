@@ -3,6 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { IAuthSuccessResponse } from '../interfaces/auth-success-response';
 import { Observable } from 'rxjs';
 import { ILoginSuccessResponse } from '../interfaces/login-success-response';
+import { INewProductRequest } from '../interfaces/new-product-request';
+import { INewProductResponse } from '../interfaces/new-product-response';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +21,9 @@ export class UserService {
       email,
       password,
     });
+  }
+
+  addNewProduct(product: INewProductRequest): Observable<INewProductResponse> {
+    return this._httpClient.post<INewProductResponse>('http://localhost:3000/api/products', product);
   }
 }
