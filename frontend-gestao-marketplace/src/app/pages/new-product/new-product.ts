@@ -21,6 +21,32 @@ export class NewProduct {
   }
 
   onFileSelected(event: Event) {
-    console.log(event)
+    const input = event.target as HTMLInputElement;
+
+    if(input.files && input.files.length > 0) {
+      const file = input.files[0];
+
+      this.convertFileToBase64(file);
+    }
+  }
+
+  convertFileToBase64(file: File) {
+    const reader = new FileReader();
+    
+    reader.onload = (e: any) => {
+      const base64String = e.target.result as string;
+      console.log('Imagem em Base64:', base64String);
+
+      this.imageBase64 = base64String;
+    };
+
+    reader.onerror = (error) => {
+      console.error('Erro ao ler o arquivo:', error);
+
+      this.imageBase64 = '';
+    };
+
+    // Inicia a leitura do arquivo como uma string Base64
+    reader.readAsDataURL(file);
   }
 }
