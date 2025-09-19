@@ -15,32 +15,53 @@
         <h3 class="text-gray-600 font-bold mb-5">Filtrar</h3>
 
         <!-- Container Input, Dorpbox e Botão Filtrar -->
-        <div class="flex flex-col gap-9">
+        <div class="flex flex-col gap-9" [formGroup]="filterForm">
           <!-- Input de Pesquisar -->
           <div class="flex border-b border-gray-300 pb-2">
             <img class="mr-2 opacity-85 w-5 h-5" src="search.svg" />
-            <input class="text-gray-400 text-sm focus:outline-none" type="text" placeholder="Pesquisar" />
+            <input 
+              class="text-gray-400 text-sm focus:outline-none" 
+              type="text" 
+              placeholder="Pesquisar" 
+              formControlName="title"
+            />
           </div>
           
           <!-- Select de Status -->
-          <select class="w-full bg-white border-b border-gray-300 text-gray-400 py-2 text-sm focus:outline-none">
+          <select 
+            class="w-full bg-white border-b border-gray-300 text-gray-400 py-2 text-sm focus:outline-none"
+            formControlName="status"
+          >
             <option value="" disabled selected hidden>Status</option>
             <option>Anunciado</option>
             <option>Vendido</option>
             <option>Desativado</option>
           </select>
 
-          <!-- Botão Aplicar filtro -->
-          <div class="flex justify-center p-3 rounded-lg bg-[#F24D0D] cursor-pointer active:translate-y-2 duration-200 
-    ease-in-out transition">
-            <span class="text-white text-sm">Aplicar filtro</span>
+          <div class="flex flex-col gap-2">
+            <!-- Botão Aplicar filtro -->
+            <div 
+              class="flex justify-center p-3 rounded-lg bg-[#F24D0D] cursor-pointer active:translate-y-2 duration-200 
+      ease-in-out transition"
+              (click)="filterProductsList()"
+            >
+              <span class="text-white text-sm">Aplicar filtro</span>
+            </div>
+            <!-- Botão Limpar filtro -->
+            <div 
+              class="flex justify-center p-3 rounded-lg bg-[#6aa3ff] cursor-pointer active:translate-y-2 duration-200 
+      ease-in-out transition"
+              (click)="clearFilter()"
+            >
+              <span class="text-white text-sm">Limpar filtro</span>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Lista de Produtos -->
       <div class="flex gap-3 flex-wrap">
-         @for(product of products; track product.id) {
+         @for(product of productsListFiltered; track product.id) {
            <div class="bg-white rounded-2xl p-1 w-[45%] min-w-96 flex flex-col cursor-pointer">
              <div class="h-48 relative">
                <img class="rounded-2xl w-full h-48 object-cover" [src]="product.imageBase64" />
@@ -64,6 +85,8 @@
                <p class="text-gray-500 text-sm">{{ product.description }}</p>
              </div>
            </div>
+         } @empty {
+          <p class="text-gray-500 text-xl">Nenhum produto encontrado</p>
          }
       </div>
     </div>
