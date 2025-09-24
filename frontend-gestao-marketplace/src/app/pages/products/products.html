@@ -1,36 +1,32 @@
-<div class="w-full py-7 px-14">
-  <!-- Container de Títulos e do Container Filtro e Lista de Produtos -->
+<main class="w-full py-7 px-14">
   <div class="w-full flex flex-col gap-5">
-    <!-- Títulos -->
     <div>
-      <h2 class="font-bold">Seus produtos</h2>
-      <h4 class="font-light text-xs text-gray-600">Acesse gerencie a sua lista de produtos à venda</h4>
+      <h1 class="font-bold">Seus produtos</h1>
+      <p class="font-light text-xs text-gray-600">Acesse e gerencie a sua lista de produtos à venda</p>
     </div>
-  
-    <!-- Container do Filtro e Lista de produtos -->
-    <div class="w-full flex gap-4 items-start">
-      <!-- Filtro -->
-      <div class="bg-white rounded-2xl p-9">
-        <!-- Título -->
-        <h3 class="text-gray-600 font-bold mb-5">Filtrar</h3>
 
-        <!-- Container Input, Dorpbox e Botão Filtrar -->
-        <div class="flex flex-col gap-9" [formGroup]="filterForm">
-          <!-- Input de Pesquisar -->
+    <div class="w-full flex gap-4 items-start">
+      <form class="bg-white rounded-2xl p-9" [formGroup]="filterForm" (ngSubmit)="filterProducts()">
+        <h2 class="text-gray-600 font-bold mb-5">Filtrar</h2>
+
+        <div class="flex flex-col gap-9">
           <div class="flex border-b border-gray-300 pb-2">
-            <img class="mr-2 opacity-85 w-5 h-5" src="search.svg" />
+            <img class="mr-2 opacity-85 w-5 h-5" src="search.svg" alt="" aria-hidden="true" />
+            <label for="search" class="sr-only">Pesquisar produto</label>
             <input 
               class="text-gray-400 text-sm focus:outline-none" 
               type="text" 
               placeholder="Pesquisar" 
               formControlName="title"
+              id="search"
             />
           </div>
           
-          <!-- Select de Status -->
+          <label for="status-select" class="sr-only">Filtrar por Status</label>
           <select 
             class="w-full bg-white border-b border-gray-300 text-gray-400 py-2 text-sm focus:outline-none"
             formControlName="status"
+            id="status-select"
           >
             <option value="" disabled selected hidden>Status</option>
             <option value="Anunciado">Anunciado</option>
@@ -39,35 +35,33 @@
           </select>
 
           <div class="flex flex-col gap-2">
-            <!-- Botão Aplicar filtro -->
-            <div 
+            <button 
+              type="submit"
               class="flex justify-center p-3 rounded-lg bg-[#F24D0D] cursor-pointer active:translate-y-2 duration-200 
-      ease-in-out transition"
-              (click)="filterProducts()"
+                ease-in-out transition"
             >
               <span class="text-white text-sm">Aplicar filtro</span>
-            </div>
-  
-            <!-- Botão Limpar filtro -->
-            <div 
+            </button>
+ 
+            <button 
+              type="button"
               class="flex justify-center p-3 rounded-lg bg-[#6aa3ff] cursor-pointer active:translate-y-2 duration-200 
-      ease-in-out transition"
+                ease-in-out transition"
               (click)="clearFilter()"
             >
               <span class="text-white text-sm">Limpar filtro</span>
-            </div>
+            </button>
           </div>
         </div>
-      </div>
+      </form>
 
-      <!-- Lista de Produtos -->
-      <div class="flex gap-3 flex-wrap">
-        <!-- Produto 1 -->
-         @for(product of filteredProducts; track product.id) {
-           <div class="bg-white rounded-2xl p-1 w-[45%] min-w-96 flex flex-col cursor-pointer">
-             <div class="h-48 relative">
-               <img class="rounded-2xl w-full h-48 object-cover" [src]="product.imageBase64" />
-               <div class="flex justify-center gap-1 absolute top-4 right-4">
+      <section class="flex gap-3 flex-wrap" aria-labelledby="product-list-title">
+        <h2 id="product-list-title" class="sr-only">Lista de Produtos</h2>
+        @for(product of filteredProducts; track product.id) {
+          <a class="bg-white rounded-2xl p-1 w-[45%] min-w-96 flex flex-col cursor-pointer">
+            <div class="h-48 relative">
+              <img class="rounded-2xl w-full h-48 object-cover" [src]="product.imageBase64" [alt]="'Imagem do produto: ' + product.title" />
+              <div class="flex justify-center gap-1 absolute top-4 right-4">
                 <span 
                   class="p-2 rounded-2xl text-xs text-white"
                   [class]="{
@@ -76,21 +70,21 @@
                     'bg-[#666]': product.status === 'desativado',
                   }"
                 >{{ product.status.toUpperCase() }}</span>
-                 <span class="bg-[#3D3D3D] p-2 rounded-2xl text-xs text-white">{{ product.category.toUpperCase() }}</span>
-               </div>
-             </div>
-             <div class="flex justify-between p-3">
-               <h3 class="font-bold text-gray-700">{{ product.title }}</h3>
-               <h3 class="font-bold"><span class="text-xs font-medium">R$</span> {{ product.price }}</h3>
-             </div>
-             <div class="px-3 pb-3">
-               <p class="text-gray-500 text-sm">{{ product.description }}</p>
-             </div>
-           </div>
-         } @empty {
-            <p class="font-bold text-gray-500">Nenhum item encontrado</p>
-         }
-      </div>
+                <span class="bg-[#3D3D3D] p-2 rounded-2xl text-xs text-white">{{ product.category.toUpperCase() }}</span>
+              </div>
+            </div>
+            <div class="flex justify-between p-3">
+              <h3 class="font-bold text-gray-700">{{ product.title }}</h3>
+              <h3 class="font-bold"><span class="text-xs font-medium">R$</span> {{ product.price }}</h3>
+            </div>
+            <div class="px-3 pb-3">
+              <p class="text-gray-500 text-sm">{{ product.description }}</p>
+            </div>
+          </a>
+        } @empty {
+          <p class="font-bold text-gray-500">Nenhum item encontrado</p>
+        }
+      </section>
     </div>
   </div>
-</div>
+</main>
