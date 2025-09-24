@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ProductsService } from '../../services/products';
 import { INewProductRequest } from '../../interfaces/new-product-request';
 import { take } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-product',
@@ -21,6 +22,7 @@ export class NewProduct {
   });
 
   private readonly _productsService = inject(ProductsService);
+  private readonly _router = inject(Router);
 
   saveProduct() {
     console.log('productForm', this.productForm);
@@ -41,6 +43,10 @@ export class NewProduct {
       },
     });
   }
+  
+  cancel() {
+    this._router.navigate(['/products']);
+  }
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -52,7 +58,7 @@ export class NewProduct {
     }
   }
 
-  convertFileToBase64(file: File) {
+  private convertFileToBase64(file: File) {
     const reader = new FileReader();
 
     reader.onload = (e: any) => {
