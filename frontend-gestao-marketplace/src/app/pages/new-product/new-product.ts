@@ -45,6 +45,7 @@ export class NewProduct {
   }
 
   cancel() {
+    // Botão de cancelar
     this._router.navigate(['/products']);
   }
 
