@@ -20,12 +20,6 @@ export const authGuard: CanActivateFn = async (route, state) => {
     //tenta validar o token no backend
     await firstValueFrom(_userService.validateUser());
 
-    //se o usuario esta validado e a rota que ele está tentando acessar é a de login
-    //ele é redirecionado para a pagina de produtos
-    if(state.url === '/login'){
-      return _router.navigate(['/products']);
-    }
-
     //se o token é válido e a rota não é a de login, permite o acesso para a rota desejada
     return true;
   } catch (error) {

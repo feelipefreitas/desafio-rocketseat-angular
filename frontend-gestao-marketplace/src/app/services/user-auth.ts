@@ -4,11 +4,20 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class UserAuthService {
-  getUserToken() {
 
-    //TODO: recuperar o token do localstorage
-    return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoibm92b0BleGFtcGxlLmNvbSIsImlhdCI6MTc1OTI2MzQxMiwiZXhwIjoxNzU5MzQ5ODEyfQ.C7E565GDFJbyytWjdRcpY4coAdHn4Lx8Q_j3D36J--I';
+  private readonly TOKEN_KEY = 'auth-token';
 
+  getUserToken(): string | null {
+
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  setUserToken(token: string): void {
+    localStorage.setItem(this.TOKEN_KEY, token);
+  }
+
+  clearUserToken(): void{
+    localStorage.removeItem(this.TOKEN_KEY);
   }
 
 }
