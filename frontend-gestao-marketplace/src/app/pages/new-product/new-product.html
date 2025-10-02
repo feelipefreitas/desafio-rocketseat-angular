@@ -1,4 +1,4 @@
-<div class="w-full py-7 px-14 flex flex-col gap-6">
+<div class="w-full py-7 px-14 flex flex-col gap-6" [formGroup]="productForm">
   <!-- Container Header -->
   <div>
     <h2 class="font-bold">Novo produto</h2>
@@ -6,22 +6,23 @@
   </div>
   <!-- Container Conteúdo -->
   <div class="flex gap-4 items-start">
-    <!-- Imagem produto TODO -->
+    <!-- Imagem produto -->
     <label for="image-upload-input" class="p-16 cursor-pointer rounded-4xl w-1/3 flex flex-col justify-center items-center gap-4 bg-[#F5EAEA]">
       <img src="image-upload.svg" />
       <p class="text-gray-600 text-center">Selecione a imagem <br /> do produto</p>
     </label>
-    <input 
+    <input
       id="image-upload-input"
       type="file"
       class="hidden"
       accept=".png, .jpg, .jpeg"
+      (change)="onFileSelected($event)"
     />
     <!-- Dados produto -->
     <div class="p-8 bg-white rounded-4xl flex-1 flex flex-col gap-7">
       <!-- Container Header -->
       <h3 class="text-gray-500 font-medium">Dados do produto</h3>
-      
+
       <!-- Container Inputs -->
       <div class="flex flex-col gap-5">
         <!-- Container Inputs Título e Valor -->
@@ -29,7 +30,11 @@
           <!-- Input Título -->
           <div class="flex flex-col gap-2 border-b border-gray-300 pb-2 w-4/5 mr-6">
             <span class="text-gray-600 text-xs">TÍTULO</span>
-            <input class="text-gray-400 text-sm focus:outline-none" type="text" placeholder="Nome do produto" />
+            <input
+            class="text-gray-400 text-sm focus:outline-none"
+            type="text"
+            placeholder="Nome do produto"
+            formControlName="title" />
           </div>
 
           <!-- Input Valor -->
@@ -37,7 +42,11 @@
             <span class="text-gray-600 text-xs">VALOR</span>
             <div class="flex gap-2">
               <span>R$</span>
-              <input class="text-gray-400 text-sm focus:outline-none" type="number" placeholder="0,00" />
+              <input
+              class="text-gray-400 text-sm focus:outline-none"
+              type="number"
+              placeholder="0,00"
+              formControlName="price"/>
             </div>
           </div>
         </div>
@@ -45,19 +54,26 @@
         <!-- Input Descrição -->
         <div class="flex flex-col gap-2 border-b border-gray-300 pb-2 flex-1">
           <span class="text-gray-600 text-xs">DESCRIÇÃO</span>
-          <input class="text-gray-400 text-sm focus:outline-none" type="text" placeholder="Escreva detalhes sobre o produto, tamanho, características" />
+          <input
+          class="text-gray-400 text-sm focus:outline-none"
+          type="text"
+          placeholder="Escreva detalhes sobre o produto, tamanho, características"
+          formControlName="description" />
+
         </div>
 
         <!-- Select Status -->
         <div class="flex flex-col gap-2 border-b border-gray-300 pb-2 flex-1">
           <span class="text-gray-600 text-xs">CATEGORIA</span>
-          <select class="w-full bg-white text-gray-400 text-sm focus:outline-none">
+          <select
+            class="w-full bg-white text-gray-400 text-sm focus:outline-none"
+            formControlName="category">
             <option value="" disabled selected hidden>Selecione</option>
-            <option>Móvel</option>
-            <option>Papelaria</option>
-            <option>Saúde & Beleza</option>
-            <option>Utensílio</option>
-            <option>Vestuário</option>
+            <option value="Móvel">Móvel</option>
+            <option value="Papelaria">Papelaria</option>
+            <option value="Saúde & Beleza">Saúde & Beleza</option>
+            <option value="Utensílio">Utensílio</option>
+            <option value="Vestuário">Vestuário</option>
           </select>
         </div>
       </div>
@@ -65,16 +81,23 @@
       <!-- Container Botões -->
        <div class="w-full flex gap-4">
         <!-- Botão Cancelar -->
-          <div class="flex flex-1 justify-center p-3 rounded-lg border-[#F24D0D] border-1 bg-white cursor-pointer active:translate-y-2 duration-200 
+          <div class="flex flex-1 justify-center p-3 rounded-lg border-[#F24D0D] border-1 bg-white cursor-pointer active:translate-y-2 duration-200
     ease-in-out transition">
             <span class="text-[#F24D0D] text-sm">Cancelar</span>
           </div>
         <!-- Botão Salvar -->
-          <div class="flex flex-1 justify-center p-3 rounded-lg bg-[#F24D0D] cursor-pointer active:translate-y-2 duration-200 
-    ease-in-out transition">
+          <div
+          [class]="`
+            flex flex-1 justify-center p-3 rounded-lg
+            ${ productForm.valid && productImageBase64 ? 'bg-[#F24D0D] cursor-pointer active:translate-y-2 duration-200 ease-in-out transition' : ' bg-gray-500 cursor-default' }`"
+          (click)="saveProduct()"
+          >
             <span class="text-white text-sm">Salvar e publicar</span>
           </div>
        </div>
+       @if(successMessage){
+        <p class="font-bold text-green-500">{{ successMessage }}</p>
+       }
     </div>
   </div>
 </div>
