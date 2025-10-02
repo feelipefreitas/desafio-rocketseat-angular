@@ -21,7 +21,5 @@ export const loginAuthGuard: CanActivateFn = async (route, state) => {
   } catch (error) {
     // token invalido, permitir acesso ao login
     return true;
-
   }
-
 };
