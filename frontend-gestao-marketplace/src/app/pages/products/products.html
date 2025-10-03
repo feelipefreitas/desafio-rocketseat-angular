@@ -1,12 +1,12 @@
-<div class="w-full py-7 px-14">
+<main class="w-full py-7 px-14">
   <!-- Container de Títulos e do Container Filtro e Lista de Produtos -->
   <div class="w-full flex flex-col gap-5">
     <!-- Títulos -->
     <div>
       <h2 class="font-bold">Seus produtos</h2>
-      <h4 class="font-light text-xs text-gray-600">Acesse gerencie a sua lista de produtos à venda</h4>
+      <h4 class="font-light text-xs text-gray-600">Acesse e gerencie a sua lista de produtos à venda</h4>
     </div>
-  
+
     <!-- Container do Filtro e Lista de produtos -->
     <div class="w-full flex gap-4 items-start">
       <!-- Filtro -->
@@ -15,95 +15,82 @@
         <h3 class="text-gray-600 font-bold mb-5">Filtrar</h3>
 
         <!-- Container Input, Dorpbox e Botão Filtrar -->
-        <div class="flex flex-col gap-9">
+        <form class="flex flex-col gap-9" [formGroup]="filterForm" (ngSubmit)="filterProducts()">
           <!-- Input de Pesquisar -->
           <div class="flex border-b border-gray-300 pb-2">
-            <img class="mr-2 opacity-85 w-5 h-5" src="search.svg" />
-            <input class="text-gray-400 text-sm focus:outline-none" type="text" placeholder="Pesquisar" />
+            <img class="mr-2 opacity-85 w-5 h-5" src="search.svg" alt="" aria-hidden="true"/>
+            <label for="input-search" class="sr-only">Filtrar por título</label>
+            <input
+            class="text-gray-400 text-sm focus:outline-none"
+            type="text"
+            placeholder="Pesquisar"
+            formControlName="title"
+            id="input-search"
+            />
           </div>
-          
+
           <!-- Select de Status -->
-          <select class="w-full bg-white border-b border-gray-300 text-gray-400 py-2 text-sm focus:outline-none">
+          <label for="select-status" class="sr-only">Filtrar por status</label>
+          <select class="w-full bg-white border-b border-gray-300 text-gray-400 py-2 text-sm focus:outline-none"
+          formControlName="status"
+          id="select-status"
+          >
             <option value="" disabled selected hidden>Status</option>
-            <option>Anunciado</option>
-            <option>Vendido</option>
-            <option>Desativado</option>
+            <option value="Anunciado">Anunciado</option>
+            <option value="Vendido">Vendido</option>
+            <option value="Desativado">Desativado</option>
           </select>
 
           <div class="flex flex-col gap-2">
             <!-- Botão Aplicar filtro -->
-            <div class="flex justify-center p-3 rounded-lg bg-[#F24D0D] cursor-pointer active:translate-y-2 duration-200 
-      ease-in-out transition">
+            <button class="flex justify-center p-3 rounded-lg bg-[#F24D0D] cursor-pointer active:translate-y-2 duration-200 ease-in-out transition" type="submit">
               <span class="text-white text-sm">Aplicar filtro</span>
-            </div>
-  
+            </button>
+
             <!-- Botão Limpar filtro -->
-            <div 
-              class="flex justify-center p-3 rounded-lg bg-[#6aa3ff] cursor-pointer active:translate-y-2 duration-200 
-      ease-in-out transition">
+            <button
+              class="flex justify-center p-3 rounded-lg bg-[#6aa3ff] cursor-pointer active:translate-y-2 duration-200 ease-in-out transition" type="button" (click)="clearFilter()">
               <span class="text-white text-sm">Limpar filtro</span>
-            </div>
+            </button>
           </div>
-        </div>
+        </form>
       </div>
 
       <!-- Lista de Produtos -->
-      <div class="flex gap-3 flex-wrap">
+      <section class="flex gap-3 flex-wrap" aria-labelledby="products-list-section">
+        <label id="products-list-section" class="sr-only">Lista de produtos</label>
         <!-- Produto 1 -->
-        <div class="bg-white rounded-2xl p-1 w-[45%] min-w-96 flex flex-col cursor-pointer">
-          <div class="h-48 relative">
-            <img class="rounded-2xl w-full h-48 object-cover" src="image-sofa.png" />
-            <div class="flex justify-center gap-1 absolute top-4 right-4">
-              <span class="bg-[#0095E5] p-2 rounded-2xl text-xs text-white">ANUNCIADO</span>
-              <span class="bg-[#3D3D3D] p-2 rounded-2xl text-xs text-white">MÓVEL</span>
+        @for(product of filteredProducts; track product.id) {
+          <div class="bg-white rounded-2xl p-1 w-[45%] min-w-96 flex flex-col cursor-pointer">
+            <div class="h-48 relative">
+              <img class="rounded-2xl w-full h-48 object-cover"
+              [src]="product.imageBase64"
+              [alt]="'Imagem do produto: '  + product.title "
+              />
+              <div class="flex justify-center gap-1 absolute top-4 right-4">
+                <span
+                  class="p-2 rounded-2xl text-xs text-white"
+                  [class]="{
+                    'bg-[#0095E5]': product.status === 'anunciado',
+                    'bg-[#28A745]': product.status === 'vendido',
+                    'bg-[#666]': product.status === 'desativado',
+                  }"
+                > {{ product.status.toUpperCase()}}</span>
+                <span class="bg-[#3D3D3D] p-2 rounded-2xl text-xs text-white"> {{ product.category.toUpperCase() }} </span>
+              </div>
+            </div>
+            <div class="flex justify-between p-3">
+              <h3 class="font-bold text-gray-700">{{ product.title }}</h3>
+              <h3 class="font-bold"><span class="text-xs font-medium">R$</span>{{ product.price }}</h3>
+            </div>
+            <div class="px-3 pb-3">
+              <p class="text-gray-500 text-sm">{{ product.description}}</p>
             </div>
           </div>
-          <div class="flex justify-between p-3">
-            <h3 class="font-bold text-gray-700">Sofá</h3>
-            <h3 class="font-bold"><span class="text-xs font-medium">R$</span> 1.200,90</h3>
-          </div>
-          <div class="px-3 pb-3">
-            <p class="text-gray-500 text-sm">Sofá revestido em couro legítimo, com estrutura em madeira maciça e pés em metal cromado.</p>
-          </div>
-        </div>
-
-        <!-- Produto 2 -->
-        <div class="bg-white rounded-2xl p-1 max-w-sm flex flex-col cursor-pointer">
-          <div class="h-48 relative">
-            <img class="rounded-2xl w-full h-48 object-cover" src="image-shirt.png" />
-            <div class="flex justify-center gap-1 absolute top-4 right-4">
-              <span class="bg-[#28A745] p-2 rounded-2xl text-xs text-white">VENDIDO</span>
-              <span class="bg-[#3D3D3D] p-2 rounded-2xl text-xs text-white">MÓVEL</span>
-            </div>
-          </div>
-          <div class="flex justify-between p-3">
-            <h3 class="font-bold text-gray-700">Camiseta masculina</h3>
-            <h3 class="font-bold"><span class="text-xs font-medium">R$</span> 200,00</h3>
-          </div>
-          <div class="px-3 pb-3">
-            <p class="text-gray-500 text-sm">Camiseta básica cinza, confeccionada em algodão 100%, com corte slim fit e gola redonda.</p>
-          </div>
-        </div>
-
-        <!-- Produto 3 -->
-        <div class="bg-white rounded-2xl p-1 max-w-sm flex flex-col cursor-pointer">
-          <div class="h-48 relative">
-            <img class="rounded-2xl w-full h-48 object-cover" src="image-car.png" />
-            <div class="flex justify-center gap-1 absolute top-4 right-4">
-              <span class="bg-[#666] p-2 rounded-2xl text-xs text-white">DESATIVADO</span>
-              <span class="bg-[#3D3D3D] p-2 rounded-2xl text-xs text-white">MÓVEL</span>
-            </div>
-          </div>
-          <div class="flex justify-between p-3">
-            <h3 class="font-bold text-gray-700">Carro de brinquedo</h3>
-            <h3 class="font-bold"><span class="text-xs font-medium">R$</span> 100,00</h3>
-          </div>
-          <div class="px-3 pb-3">
-            <p class="text-gray-500 text-sm">Carrinho de brinquedo na cor amarela, feito de metal, com detalhes realistas.</p>
-          </div>
-        </div>
-
-      </div>
+        } @empty {
+          <p class="font-bold text-gray-500" role="status">Nenhum item encontrado</p>
+        }
+      </section>
     </div>
   </div>
-</div>
+</main>

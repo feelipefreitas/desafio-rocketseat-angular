@@ -1,17 +1,17 @@
-<div class="flex p-4 w-full justify-between">
+<form class="flex p-4 w-full justify-between" [formGroup]="userForm" (ngSubmit)="login()">
   <!-- Logo -->
   <div class="p-6">
     <div class="flex items-center">
-      <img class="w-24 h-24 mr-4" src="logo.svg" />
+      <img class="w-24 h-24 mr-4" src="logo.svg" alt="Logotipo marketplace"/>
       <div>
         <h2 class="font-bold">Marketplace</h2>
         <h4>Painel de Vendedor</h4>
       </div>
     </div>
 
-    <img src="login-background.svg" />
+    <img src="login-background.svg" alt="" aria-hidden="true" />
   </div>
-  
+
   <!-- Container Formulário de Login -->
   <div class="flex flex-col justify-between gap-8 p-8 w-3/6 bg-white rounded-2xl">
     <!-- Títulos -->
@@ -19,32 +19,50 @@
       <h2 class="font-bold">Acesse sua conta</h2>
       <p class="font-light text-xs text-gray-600">Informe seu e-mail e senha para entrar</p>
     </div>
+
     <!-- Inputs de Email e Senha -->
     <div class="flex flex-col gap-10">
+
       <!-- Input de Email -->
       <div class="flex flex-col gap-2 border-b border-gray-300 pb-2">
-        <span class="text-gray-600 text-xs">E-MAIL</span>
+        <label for="input-email" class="text-gray-600 text-xs">E-MAIL</label>
         <div class="flex">
-          <img class="mr-2 opacity-85 w-5 h-5" src="mail.svg" />
-          <input class="text-gray-400 text-sm focus:outline-none" type="text" placeholder="Seu e-mail cadastrado" />
-        </div>
-      </div>
-      <!-- Input de Senha -->
-      <div class="flex flex-col gap-2 border-b border-gray-300 pb-2">
-        <span class="text-gray-600 text-xs">SENHA</span>
-        <div class="flex">
-          <img class="mr-2 opacity-85 w-5 h-5" src="access.svg" />
-          <input class="text-gray-400 text-sm focus:outline-none" type="text" placeholder="Sua senha de acesso" />
+          <img class="mr-2 opacity-85 w-5 h-5" src="mail.svg" alt="" aria-hidden="true" />
+          <input
+          class="text-gray-400 text-sm focus:outline-none"
+          id="input-email"
+          type="email"
+          placeholder="Seu e-mail cadastrado"
+          formControlName="email" />
         </div>
       </div>
 
-      <p class="font-bold text-red-500">Erro de login</p>
+      <!-- Input de Senha -->
+      <div class="flex flex-col gap-2 border-b border-gray-300 pb-2">
+        <label for="input-password" class="text-gray-600 text-xs">SENHA</label>
+        <div class="flex">
+          <img class="mr-2 opacity-85 w-5 h-5" src="access.svg" alt="" aria-hidden="true"/>
+          <input
+            class="text-gray-400 text-sm focus:outline-none"
+            id="input-password"
+            type="password"
+            placeholder="Sua senha de acesso"
+            formControlName="password" />
+        </div>
+      </div>
+
+      @if(loginErrorMessage) {
+        <p class="font-bold text-red-500" role="alert">{{ loginErrorMessage }}</p>
+      }
     </div>
+
     <!-- Botão de Login -->
-    <div class="flex justify-between items-center mt-auto p-4 cursor-pointer rounded-xl bg-[#F24D0D] active:translate-y-2 duration-200 
-    ease-in-out transition">
+    <button [class]="`
+      flex justify-between items-center mt-auto p-4 rounded-xl
+      ${ userForm.invalid ? 'bg-gray-500 cursor-default' : 'cursor-pointer bg-[#F24D0D] active:translate-y-2 duration-200 ease-in-out transition'}
+        `" [disabled]="userForm.invalid">
       <span class="text-white">Acessar</span>
-      <img class="w-4 h-4" src="right-arrow.svg" />
-    </div>
+      <img class="w-4 h-4" src="right-arrow.svg" alt="" aria-hidden="true" />
+    </button>
   </div>
-</div>
+</form>
